@@ -1,0 +1,9 @@
+{
+  "repositoryName": "nimbus-keyboard-cy",
+  "routes": [
+    {
+      "type": "test_page",
+      "path": "/test-page/:uid"
+    }
+  ]
+}

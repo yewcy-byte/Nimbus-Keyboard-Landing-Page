@@ -1,0 +1,16 @@
+{
+  "id": "test_slice",
+  "type": "SharedSlice",
+  "name": "TestSlice",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Default",
+      "imageUrl": "",
+      "docURL": "...",
+      "version": "initial"
+    }
+  ],
+  "description": "TestSlice"
+}
