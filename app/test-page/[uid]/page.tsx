@@ -1,6 +1,6 @@
 import { SliceZone } from "@prismicio/react";
 import { createClient } from "@/prismicio";
-import { components } from "@/slices";
+import { components } from "@/src/slices";
 
 export default async function Page({ params }: PageProps<"/test-page/[uid]">) {
 	const { uid } = await params;

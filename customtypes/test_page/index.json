@@ -2,6 +2,8 @@
   "id": "test_page",
   "label": "Test page",
   "repeatable": true,
+  "status": true,
+  "format": "page",
   "json": {
     "Main": {
       "uid": {
@@ -15,7 +17,7 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "test_slice": {
+            "hero": {
               "type": "SharedSlice"
             }
           }
@@ -49,7 +51,5 @@
         }
       }
     }
-  },
-  "status": true,
-  "format": "page"
+  }
 }

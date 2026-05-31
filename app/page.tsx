@@ -4,7 +4,7 @@ import { asImageSrc } from "@prismicio/client";
 import { SliceZone } from "@prismicio/react";
 
 import { createClient } from "@/prismicio";
-import { components } from "@/slices";
+import { components } from "@/src/slices";
 
 export default async function Page() {
   const client = createClient();
