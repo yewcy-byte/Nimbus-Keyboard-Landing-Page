@@ -13,3 +13,7 @@ clsx is for conditional classes
 https://gltf.pmnd.rs/ to convert gltf to code
 
 installed React-three-fiber(a React renderer for three.js.) and drei (Useful helpers for @react-three/fiber)
+
+leva for realtime adjusting turning sliders into hardcoded values
+
+drei float and drei stage

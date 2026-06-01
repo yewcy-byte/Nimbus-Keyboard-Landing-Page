@@ -134,7 +134,10 @@ export type HomePageDocument<Lang extends string = string> =
     Lang
   >;
 
-type TestPageDocumentDataSlicesSlice = HeroSlice;
+type TestPageDocumentDataSlicesSlice =
+  | ColorChangerSlice
+  | BentoBoxSlice
+  | HeroSlice;
 
 /**
  * Content for Test page documents
@@ -200,6 +203,151 @@ export type TestPageDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes = HomePageDocument | TestPageDocument;
+
+/**
+ * Item in *BentoBox → Default → Primary → Items*
+ */
+export interface BentoBoxSliceDefaultPrimaryItemsItem {
+  /**
+   * Size field in *BentoBox → Default → Primary → Items*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: bento_box.default.primary.items[].size
+   * - **Documentation**: https://prismic.io/docs/fields/select
+   */
+  size: prismic.SelectField<"Small" | "Medium" | "Large">;
+
+  /**
+   * Image field in *BentoBox → Default → Primary → Items*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: bento_box.default.primary.items[].image
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Test field in *BentoBox → Default → Primary → Items*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: bento_box.default.primary.items[].test
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  test: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *BentoBox → Default → Primary*
+ */
+export interface BentoBoxSliceDefaultPrimary {
+  /**
+   * Heading field in *BentoBox → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: bento_box.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Items field in *BentoBox → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: bento_box.default.primary.items[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  items: prismic.GroupField<Simplify<BentoBoxSliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * Default variation for BentoBox Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type BentoBoxSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<BentoBoxSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *BentoBox*
+ */
+type BentoBoxSliceVariation = BentoBoxSliceDefault;
+
+/**
+ * BentoBox Shared Slice
+ *
+ * - **API ID**: `bento_box`
+ * - **Description**: BentoBox
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type BentoBoxSlice = prismic.SharedSlice<
+  "bento_box",
+  BentoBoxSliceVariation
+>;
+
+/**
+ * Primary content in *ColorChanger → Default → Primary*
+ */
+export interface ColorChangerSliceDefaultPrimary {
+  /**
+   * Heading field in *ColorChanger → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: color_changer.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Description field in *ColorChanger → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: color_changer.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Default variation for ColorChanger Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ColorChangerSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<ColorChangerSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *ColorChanger*
+ */
+type ColorChangerSliceVariation = ColorChangerSliceDefault;
+
+/**
+ * ColorChanger Shared Slice
+ *
+ * - **API ID**: `color_changer`
+ * - **Description**: ColorChanger
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ColorChangerSlice = prismic.SharedSlice<
+  "color_changer",
+  ColorChangerSliceVariation
+>;
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -291,6 +439,15 @@ declare module "@prismicio/client" {
       TestPageDocumentData,
       TestPageDocumentDataSlicesSlice,
       AllDocumentTypes,
+      BentoBoxSlice,
+      BentoBoxSliceDefaultPrimaryItemsItem,
+      BentoBoxSliceDefaultPrimary,
+      BentoBoxSliceVariation,
+      BentoBoxSliceDefault,
+      ColorChangerSlice,
+      ColorChangerSliceDefaultPrimary,
+      ColorChangerSliceVariation,
+      ColorChangerSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
