@@ -6,6 +6,12 @@ import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { Bounded } from "@/components/bounded";
 import { Scene } from "./Scene";
 import { Canvas } from "@react-three/fiber";
+import { useGSAP } from "@gsap/react";
+import { SplitText } from "gsap/SplitText";
+import gsap from "gsap";
+
+
+gsap.registerPlugin(SplitText, useGSAP);
 
 /**
  * Props for `Hero`.
@@ -16,11 +22,50 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  * Component for "Hero" Slices.
  */
 const Hero: FC<HeroProps> = ({ slice }) => {
+
+  useGSAP(() =>{
+
+    gsap.set(".hero-body", { opacity: 0 });
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const split =  SplitText.create(".hero-heading", { 
+        type: "chars, lines", 
+        mask:"lines",
+        linesClass: "line++" });
+
+     const tl = gsap.timeline({
+      delay:4.2
+     });
+
+     tl.from(split.chars, {
+      opacity:0,
+      y:-120,
+      ease: "back",
+      duration: .4,
+      stagger: 0.07,
+     }
+     ). to(".hero-body", {
+      opacity:1,
+      duration: .6,
+      ease:"power2.out"
+
+     }
+     )
+    })
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set([".hero-heading", ".hero-body"], { opacity: 1, y: 0 });
+    })
+
+  })
+
   return (
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="blue-gradient-bg text-white relative h-dvh text-shadow-black/30 text-shadow-lg"
+      className="hero blue-gradient-bg text-white relative h-dvh text-shadow-black/30 text-shadow-lg motion-safe:h-[300vh]"
     >
       <div className="hero-scene sticky pointer-events-none top-0 h-dvh w-full">
 

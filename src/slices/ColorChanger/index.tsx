@@ -62,6 +62,8 @@ const ColorChanger: FC<ColorChangerProps> = ({ slice }) => {
 
   function handleTextureSelect(texture: KeycapTexture) {
       if(texture.id === selectedTexture || isAnimating) return;
+
+      setIsAnimating(true);
       setSelectedTexture(texture.id);
       setBackgroundText(KEYCAP_TEXTURES.find((t) => t.id === texture.id)?.name || "")
   }
@@ -119,7 +121,7 @@ const ColorChanger: FC<ColorChangerProps> = ({ slice }) => {
       <ul className="grid grow grid-cols-2 gap-3 rounded-2xl bg-white p-4 text-black shadow-lg sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-3 xl:grid-cols-6">
         {KEYCAP_TEXTURES.map((texture) => (
           <li key={texture.id}>
-             <button onClick={() => handleTextureSelect(texture)} className={clsx(
+             <button onClick={() => handleTextureSelect(texture)} disabled={isAnimating} className={clsx(
             "flex aspect-square flex-col items-center justify-center rounded-lg border-2 p-4 hover:scale-105 motion-safe:transition-all motion-safe:duration-300",
 
             selectedTexture === texture.id ? "border-[#81BFED] bg-[#81BFED]/20" : "cursor-pointer border-gray-300 hover:border-gray-500",
