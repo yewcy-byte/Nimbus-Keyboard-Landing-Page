@@ -8,10 +8,11 @@ import { Scene } from "./Scene";
 import { Canvas } from "@react-three/fiber";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 
 
-gsap.registerPlugin(SplitText, useGSAP);
+gsap.registerPlugin(SplitText, useGSAP, ScrollTrigger);
 
 /**
  * Props for `Hero`.
@@ -53,6 +54,19 @@ const Hero: FC<HeroProps> = ({ slice }) => {
 
      }
      )
+
+     gsap.fromTo(".hero-scene", {
+      background:"linear-gradient(to bottom, #000000, #0f172a, #062f4a, #7fa0b9)",
+     
+
+     },{background:"linear-gradient(to bottom, #ffffff, #ffffff, #ffffff, #ffffff)",
+       scrollTrigger: {
+        trigger: ".hero",
+        start:"top top",
+        end:"50% bottom",
+        scrub:1
+      }
+     })
     })
 
     mm.add("(prefers-reduced-motion: reduce)", () => {

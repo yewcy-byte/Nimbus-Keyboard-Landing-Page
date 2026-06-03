@@ -134,7 +134,47 @@ export type HomePageDocument<Lang extends string = string> =
     Lang
   >;
 
+/**
+ * Content for Switch documents
+ */
+interface SwitchDocumentData {
+  /**
+   * Name field in *Switch*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: switch.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * HexColor field in *Switch*
+   *
+   * - **Field Type**: Color
+   * - **Placeholder**: *None*
+   * - **API ID Path**: switch.color
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/color
+   */
+  color: prismic.ColorField;
+}
+
+/**
+ * Switch document from Prismic
+ *
+ * - **API ID**: `switch`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SwitchDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<SwitchDocumentData>, "switch", Lang>;
+
 type TestPageDocumentDataSlicesSlice =
+  | PlaygroundSlice
   | ColorChangerSlice
   | BentoBoxSlice
   | HeroSlice;
@@ -202,7 +242,10 @@ export type TestPageDocument<Lang extends string = string> =
     Lang
   >;
 
-export type AllDocumentTypes = HomePageDocument | TestPageDocument;
+export type AllDocumentTypes =
+  | HomePageDocument
+  | SwitchDocument
+  | TestPageDocument;
 
 /**
  * Item in *BentoBox → Default → Primary → Items*
@@ -411,6 +454,90 @@ type HeroSliceVariation = HeroSliceDefault;
  */
 export type HeroSlice = prismic.SharedSlice<"hero", HeroSliceVariation>;
 
+/**
+ * Item in *Playground → Default → Primary → Switches*
+ */
+export interface PlaygroundSliceDefaultPrimarySwitchesItem {
+  /**
+   * Switch field in *Playground → Default → Primary → Switches*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: playground.default.primary.switches[].switch
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  switch: ContentRelationshipFieldWithData<
+    [{ id: "switch"; fields: ["name", "color"] }]
+  >;
+}
+
+/**
+ * Primary content in *Playground → Default → Primary*
+ */
+export interface PlaygroundSliceDefaultPrimary {
+  /**
+   * Heading field in *Playground → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: playground.default.primary.heading
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  heading: prismic.RichTextField;
+
+  /**
+   * Description field in *Playground → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: playground.default.primary.description
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Switches field in *Playground → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: playground.default.primary.switches[]
+   * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+   */
+  switches: prismic.GroupField<
+    Simplify<PlaygroundSliceDefaultPrimarySwitchesItem>
+  >;
+}
+
+/**
+ * Default variation for Playground Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PlaygroundSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<PlaygroundSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Playground*
+ */
+type PlaygroundSliceVariation = PlaygroundSliceDefault;
+
+/**
+ * Playground Shared Slice
+ *
+ * - **API ID**: `playground`
+ * - **Description**: Playground
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type PlaygroundSlice = prismic.SharedSlice<
+  "playground",
+  PlaygroundSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -435,6 +562,8 @@ declare module "@prismicio/client" {
       HomePageDocument,
       HomePageDocumentData,
       HomePageDocumentDataSlicesSlice,
+      SwitchDocument,
+      SwitchDocumentData,
       TestPageDocument,
       TestPageDocumentData,
       TestPageDocumentDataSlicesSlice,
@@ -452,6 +581,11 @@ declare module "@prismicio/client" {
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
       HeroSliceDefault,
+      PlaygroundSlice,
+      PlaygroundSliceDefaultPrimarySwitchesItem,
+      PlaygroundSliceDefaultPrimary,
+      PlaygroundSliceVariation,
+      PlaygroundSliceDefault,
     };
   }
 }
